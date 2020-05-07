@@ -1,0 +1,12 @@
+rm -f core
+rm -f  *~ *.o
+rm -rf */
+gcc -Wall -pedantic -std=c11 -ggdb  -I../libcs50 -I../common   -c -o crawler.o crawler.c
+gcc -Wall -pedantic -std=c11 -ggdb  -I../libcs50 -I../common -DMYTEST crawler.o ../libcs50/libcs50.a ../common/common.a -o crawler
+Error: crawler should be supplied with three arguments
+Error: the depth argument should be a non negative integer
+Error: the depth argument should be a non negative integer
+Error: directory was not writeable or does not exist
+Error: url supplied as argument should be internal to the CS50 server
+Error: url supplied as argument should be internal to the CS50 server
+Error: html for http://old-www.cs.dartmouth.edu/~cs50/data/tse/letters/fakepage.html was unable to be fetched
