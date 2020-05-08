@@ -16,7 +16,9 @@
 #include "../libcs50/hashtable.h"
 #include "../common/pagedir.h"
 
-// make sure the supplies directory is writeable
+// makes sure that the supplied directory is writeable
+// adds '/' to the end of it if it is not present
+// creates ".crawler" inside the directory if it is not present
 int page_validate(char *directory) {
 	char filename[100];
 	// account for both formats of directory argument
@@ -46,7 +48,8 @@ bool page_fetch(webpage_t *page) {
 }
 
 
-// takes URLS from a page and inserts them into the hashtable, and
+// takes URLS from a page and inserts the internal ones into a hashtable
+// if that insert succeeds, a webpage created with the url is created and inserted into the bag
 void page_scan(webpage_t *page, bag_t *bag, hashtable_t *ht) {
 	int pos = 0;
 	char *url;
@@ -70,7 +73,9 @@ void page_scan(webpage_t *page, bag_t *bag, hashtable_t *ht) {
 	}
 }
 
-// does the crawling
+// starting from a seedURL, crawler records data from internal pages linked to on
+// the page corresponding to seedURL in a supplied directory. Then crawls those pages,
+// and continues to a specified depth
 int crawler(char *seedURL, char *directory, int maxDepth) {
 	webpage_t *seed = webpage_new(seedURL, 0, NULL);
 	if (seed == NULL) {
@@ -119,7 +124,7 @@ int crawler(char *seedURL, char *directory, int maxDepth) {
 }
 
 
-// performs the crawling
+// validates command-line arguments
 int main(int argc, char *argv[]) {
 	// first make sure we have three arguments
 	if (argc != 4) {
