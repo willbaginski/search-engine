@@ -3,7 +3,7 @@
 L = ../libcs50
 
 # object files and the target library
-OBJS = pagedir.o
+OBJS = pagedir.o index.o word.o
 LIB = common.a
 LLIBS = $L/libcs50.a
 
@@ -17,6 +17,8 @@ $(LIB): $(OBJS)
 	ar cr $(LIB) $(OBJS)
 
 pagedir.o: pagedir.h
+index.o: index.h
+word.o: word.h
 
 .PHONY: all clean
 

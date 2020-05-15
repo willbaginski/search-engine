@@ -6,7 +6,9 @@
 
 #include <stdio.h>
 #include <string.h>
+
 #include "../libcs50/webpage.h"
+#include "../libcs50/file.h"
 
 // saves page contents to a file named ID within directory/
 // formatted with the first line being the url, the second being the depth,
@@ -30,4 +32,22 @@ void page_saver(webpage_t *page, char *directory, int ID) {
 	
 	// clean up our mess and prepare for the next call of the function
 	fclose(fp);
+}
+
+// constructs and returns a webpage from a file created by crawler
+webpage_t *page_load(FILE *fp) {
+	// first line is the url
+	char *url = freadlinep(fp);
+	
+	// second line is the depth -- read it, then scan it as an integer
+	char *depth_c = freadlinep(fp);
+	int depth;
+	sscanf(depth_c, "%d", &depth);
+	free(depth_c);
+
+	// rest of the file is the html
+	char *html = freadfilep(fp);
+	
+	// if the construction fails, NULL will be returned
+	return webpage_new(url, depth, html);
 }

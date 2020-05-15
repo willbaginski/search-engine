@@ -1,0 +1,127 @@
+bash -v ./testing.sh
+switchml () {  typeset swfound=1;
+ if [ "${MODULES_USE_COMPAT_VERSION:-0}" = '1' ]; then
+ typeset swname='main';
+ if [ -e /usr/share/Modules/libexec/modulecmd.tcl ]; then
+ typeset swfound=0;
+ unset MODULES_USE_COMPAT_VERSION;
+ fi;
+ else
+ typeset swname='compatibility';
+ if [ -e /usr/share/Modules/libexec/modulecmd-compat ]; then
+ typeset swfound=0;
+ MODULES_USE_COMPAT_VERSION=1;
+ export MODULES_USE_COMPAT_VERSION;
+ fi;
+ fi;
+ if [ $swfound -eq 0 ]; then
+ echo "Switching to Modules $swname version";
+ source /usr/share/Modules/init/bash;
+ else
+ echo "Cannot switch to Modules $swname version, command not found";
+ return 1;
+ fi
+}
+module () {  _module_raw "$@" 2>&1
+}
+_module_raw () {  unset _mlshdbg;
+ if [ "${MODULES_SILENT_SHELL_DEBUG:-0}" = '1' ]; then
+ case "$-" in 
+ *v*x*)
+ set +vx;
+ _mlshdbg='vx'
+ ;;
+ *v*)
+ set +v;
+ _mlshdbg='v'
+ ;;
+ *x*)
+ set +x;
+ _mlshdbg='x'
+ ;;
+ *)
+ _mlshdbg=''
+ ;;
+ esac;
+ fi;
+ unset _mlre _mlIFS;
+ if [ -n "${IFS+x}" ]; then
+ _mlIFS=$IFS;
+ fi;
+ IFS=' ';
+ for _mlv in ${MODULES_RUN_QUARANTINE:-};
+ do
+ if [ "${_mlv}" = "${_mlv##*[!A-Za-z0-9_]}" -a "${_mlv}" = "${_mlv#[0-9]}" ]; then
+ if [ -n "`eval 'echo ${'$_mlv'+x}'`" ]; then
+ _mlre="${_mlre:-}${_mlv}_modquar='`eval 'echo ${'$_mlv'}'`' ";
+ fi;
+ _mlrv="MODULES_RUNENV_${_mlv}";
+ _mlre="${_mlre:-}${_mlv}='`eval 'echo ${'$_mlrv':-}'`' ";
+ fi;
+ done;
+ if [ -n "${_mlre:-}" ]; then
+ eval `eval ${_mlre}/usr/bin/tclsh /usr/share/Modules/libexec/modulecmd.tcl bash '"$@"'`;
+ else
+ eval `/usr/bin/tclsh /usr/share/Modules/libexec/modulecmd.tcl bash "$@"`;
+ fi;
+ _mlstatus=$?;
+ if [ -n "${_mlIFS+x}" ]; then
+ IFS=$_mlIFS;
+ else
+ unset IFS;
+ fi;
+ unset _mlre _mlv _mlrv _mlIFS;
+ if [ -n "${_mlshdbg:-}" ]; then
+ set -$_mlshdbg;
+ fi;
+ unset _mlshdbg;
+ return $_mlstatus
+}
+#!/bin/bash
+
+# compile indexe and indextest:
+make clean
+make[1]: Entering directory '/net/ifs-users/willbaginski/cs50/labs/tse-willbaginski/indexer'
+rm -f core
+rm -f *~ *.o
+make[1]: Leaving directory '/net/ifs-users/willbaginski/cs50/labs/tse-willbaginski/indexer'
+make
+make[1]: Entering directory '/net/ifs-users/willbaginski/cs50/labs/tse-willbaginski/indexer'
+gcc -Wall -pedantic -std=c11 -ggdb  -I../common -I../libcs50   -c -o indexer.o indexer.c
+gcc -Wall -pedantic -std=c11 -ggdb  -I../common -I../libcs50 indexer.o ../common/common.a ../libcs50/libcs50.a -o indexer
+gcc -Wall -pedantic -std=c11 -ggdb  -I../common -I../libcs50   -c -o indextest.o indextest.c
+gcc -Wall -pedantic -std=c11 -ggdb  -I../common -I../libcs50 indextest.o ../common/common.a ../libcs50/libcs50.a -o indextest 
+make[1]: Leaving directory '/net/ifs-users/willbaginski/cs50/labs/tse-willbaginski/indexer'
+
+# test case with the wrong number of arguments:
+./indexer
+Error: exactly two additional arguments should be supplied by the user
+
+# test case where pageDir is not a directory created by crawler:
+./indexer ../indexer/ test
+Error: pageDirectory should be an existing directory produced by the Crawler
+
+# test case where file is not a path to a valid file:
+./indexer ../tse-output/letters-depth-4 /
+Error: index was not properly saved after construction
+
+# run indexer on example crawler output to create testIndex:
+./indexer ../tse-output/letters-depth-4 testIndex
+
+# run indextest with wrong number of arguments:
+./indextest
+Error: user should supply exactly two additional arguments
+
+# run indextest with a nonexistent oldFile:
+./indextest fake testCopy
+Error: oldIndexFilename should be a file produced by the indexer
+
+# run indextest on testIndex to create testCopy:
+./indextest testIndex testCopy
+
+# organize the two files with indexsort.awk (nothing should be printed):
+gawk -f indexsort.awk testIndex > testIndex.sorted
+gawk -f indexsort.awk testCopy > testCopy.sorted
+
+# compare the two files (if they are identical nothing should be printed):
+diff testIndex.sorted testCopy.sorted
