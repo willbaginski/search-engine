@@ -93,7 +93,7 @@ int crawler(char *seedURL, char *directory, int maxDepth) {
 	hashtable_insert(ht, seedURL, "");
 
 	// crawl
-	int ID = 0;
+	int ID = 1;
 	int exitcode = 0;
 	webpage_t *page;
 	while ((page = bag_extract(bag)) != NULL) {

@@ -6,7 +6,7 @@ C = ../common
 # object files and the target library
 OBJS = crawler.o
 PROG = crawler
-LLIBS = $L/libcs50.a $C/common.a
+LLIBS = $C/common.a $L/libcs50.a
 
 CFLAGS = -Wall -pedantic -std=c11 -ggdb $(FLAGS) -I$L -I$C
 FLAGS = # -DMEMTEST # -DNOSLEEP
