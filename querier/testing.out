@@ -1,0 +1,129 @@
+make[1]: Entering directory '/net/ifs-users/willbaginski/cs50/labs/tse-willbaginski/querier'
+rm -f core
+rm -f *~ *.o
+make[1]: Leaving directory '/net/ifs-users/willbaginski/cs50/labs/tse-willbaginski/querier'
+make[1]: Entering directory '/net/ifs-users/willbaginski/cs50/labs/tse-willbaginski/querier'
+gcc -Wall -pedantic -std=c11 -ggdb -I../libcs50 -I../common   -c -o querier.o querier.c
+gcc -Wall -pedantic -std=c11 -ggdb -I../libcs50 -I../common querier.o ../common/common.a ../libcs50/libcs50.a -o querier
+gcc -Wall -pedantic -std=c11 -ggdb -I../libcs50 -I../common   -c -o fuzzquery.o fuzzquery.c
+gcc -Wall -pedantic -std=gnu11 -ggdb -I../libcs50 fuzzquery.o ../libcs50/libcs50.a -o fuzzquery
+make[1]: Leaving directory '/net/ifs-users/willbaginski/cs50/labs/tse-willbaginski/querier'
+Error: the user should supply exactly two additional arguments.
+Error: the user should supply exactly two additional arguments.
+Error: the user should supply exactly two additional arguments.
+Error: pageDirectory should be an existing directory produced by the crawler.
+Error: indexFile should be a valid path to a file.
+Error: invalid query syntax (query begins or ends with an operator).
+Query? Query: and
+
+Query? 
+Error: query contains an illegal character.
+Query? Query: algorithm or 10
+
+Query? 
+Error: invalid query syntax (consecutive operators).
+Query? Query: playground or or tse
+
+Query? 
+Error: invalid query syntax (query begins or ends with an operator).
+Query? Query: page and home and
+
+Query? 
+Error: invalid query syntax (query begins or ends with an operator).
+Query? Query: and or and
+
+Query? 
+Error: invalid query syntax (query begins or ends with an operator).
+Query? Query: or and
+
+Query? 
+Error: invalid query syntax (query begins or ends with an operator).
+Query? Query: page home or
+
+Query? 
+./fuzzquery: generating 5 queries from 20 words
+Error: query contains an illegal character.
+Query? Query: first OR basinal OR for first 
+--------------------------------------------------------------
+Matches 2 documents (ranked):
+Score 2 Doc 7: http://old-www.cs.dartmouth.edu/~cs50/data/tse/letters/D.html
+Score 2 Doc 3: http://old-www.cs.dartmouth.edu/~cs50/data/tse/letters/B.html
+
+Query? Query: first AND home OR the biology breadth traversal 
+--------------------------------------------------------------
+Matches 2 documents (ranked):
+Score 1 Doc 7: http://old-www.cs.dartmouth.edu/~cs50/data/tse/letters/D.html
+Score 1 Doc 3: http://old-www.cs.dartmouth.edu/~cs50/data/tse/letters/B.html
+
+Query? Query: damascene traversal OR Jorey AND auctioned for first 
+--------------------------------------------------------------
+No documents match.
+
+Query? Query: transform fourier this fourier algorithm OR wet-nursed 
+
+Query? Query: graph OR graph 
+--------------------------------------------------------------
+Matches 1 documents (ranked):
+Score 2 Doc 5: http://old-www.cs.dartmouth.edu/~cs50/data/tse/letters/G.html
+
+Query? 
+./fuzzquery: generating 10 queries from 6506 words
+Query? Query: alums unnefariousness 
+--------------------------------------------------------------
+No documents match.
+
+Query? Query: PGA criticism OR cycadeoid kemp ihsa 
+--------------------------------------------------------------
+No documents match.
+
+Query? Query: carbineer 
+--------------------------------------------------------------
+No documents match.
+
+Query? Query: compute OR proceeds 
+--------------------------------------------------------------
+Matches 3 documents (ranked):
+Score 2 Doc 3: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Hash_table.html
+Score 1 Doc 7: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Computer_science.html
+Score 1 Doc 2: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Linked_list.html
+
+Query? Query: nanometer 
+--------------------------------------------------------------
+Matches 1 documents (ranked):
+Score 1 Doc 4: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Dartmouth_College.html
+
+Query? Query: hrvatski 
+--------------------------------------------------------------
+Matches 5 documents (ranked):
+Score 1 Doc 7: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Computer_science.html
+Score 1 Doc 6: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/C_(programming_language).html
+Score 1 Doc 5: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Unix.html
+Score 1 Doc 3: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Hash_table.html
+Score 1 Doc 2: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Linked_list.html
+
+Query? Query: nine AND manipulation OR much 
+--------------------------------------------------------------
+Matches 6 documents (ranked):
+Score 5 Doc 7: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Computer_science.html
+Score 4 Doc 2: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Linked_list.html
+Score 3 Doc 6: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/C_(programming_language).html
+Score 2 Doc 4: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Dartmouth_College.html
+Score 2 Doc 3: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Hash_table.html
+Score 2 Doc 5: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Unix.html
+
+Query? Query: fast OR tpf AND stephanie 
+--------------------------------------------------------------
+Matches 3 documents (ranked):
+Score 2 Doc 3: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Hash_table.html
+Score 1 Doc 7: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Computer_science.html
+Score 1 Doc 2: http://old-www.cs.dartmouth.edu/~cs50/data/tse/wikipedia/Linked_list.html
+
+Query? Query: vitalise OR sourced AND population sting 
+--------------------------------------------------------------
+No documents match.
+
+Query? Query: stepped AND refers flaggedrevssimpleui 
+--------------------------------------------------------------
+No documents match.
+
+Query? 

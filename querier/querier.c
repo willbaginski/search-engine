@@ -125,7 +125,11 @@ int main(int argc, char *argv[]) {
 		}
 		if (process(line, words, &word_num)) {
 			// perform the query
-			query(pageDirectory, index, words, word_num);
+			if (word_num > 0) {
+				query(pageDirectory, index, words, word_num);
+			} else {
+				printf("Empty query.\n");
+			}
 		}
 		// cleanup
 		for (int j = 0; j < word_num; j++) {
